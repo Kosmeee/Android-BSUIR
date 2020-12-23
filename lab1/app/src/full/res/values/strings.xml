@@ -1,0 +1,29 @@
+<resources>//distance, weight, Volume
+    <string name="app_name">Lab1</string>
+
+    <string-array name="Values" ignore="MissingConstraints">
+        <item>Distance</item>
+        <item>Weight</item>
+        <item>Volume</item>
+    </string-array>
+
+    <string-array name="Distance" ignore="MissingConstraints">
+        <item>Centimeter</item>
+        <item>Meter</item>
+        <item>Kilometer</item>
+    </string-array>
+
+    <string-array name="Weight" ignore="MissingConstraints">
+        <item>Gram</item>
+        <item>Kilogram</item>
+        <item>Ton</item>
+    </string-array>
+
+    <string-array name="Volume" ignore="MissingConstraints">
+        <item>Liter</item>
+        <item>Milliliter</item>
+        <item>M^3</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
