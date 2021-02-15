@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">LR2</string>
+    <string name="action_settings">Настройки</string>
+
+    <string name="title">Название</string>
+    <string name="prepare">Подготовка</string>
+    <string name="work">Работа</string>
+    <string name="calm">Отдых</string>
+    <string name="cycles">Циклы</string>
+    <string name="sets">Сеты</string>
+    <string name="stsCalm">Отдых между сетами</string>
+    <string name="trainingTitle">Тренировка</string>
+    <string name="save">Сохранить</string>
+    <string name="color">Цвет</string>
+    <string name="clearData">Стереть данные</string>
+    <string name="clearDataSure">Вы уверены, что хотите стереть все пользовательские данные?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="finish">Финиш</string>
+    <string name="finishTraining">Закончить тренировку</string>
+    <string name="finishTrainingSure">Вы уверены, что хотите прервать тренировку?</string>
+    <string name="edit">Изменить</string>
+    <string name="delete">Удалить</string>
+    <string name="darkTheme">Темная тема</string>
+    <string name="enterFontSize">Введите размер шрифта</string>
+    <string name="setFontSize">Устанавливает новый размер шрифта</string>
+    <string name="fontSize">Размер шрифта</string>
+    <string name="chooseLanguage">Выберите язык</string>
+    <string name="setLanguage">Устанавливает язык приложения</string>
+    <string name="language">Язык</string>
+    <string name="eraseUserData">Стирает все пользовательские данные</string>
+    <string name="eraseData">Стереть данные</string>
+</resources>

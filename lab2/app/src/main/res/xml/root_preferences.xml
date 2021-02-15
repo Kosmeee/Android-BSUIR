@@ -1,0 +1,32 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreferenceCompat
+        app:defaultValue="false"
+        app:key="@string/pref_theme"
+        app:title="@string/darkTheme" />
+
+    <EditTextPreference
+        app:defaultValue="18"
+        app:dialogTitle="@string/enterFontSize"
+        app:key="@string/pref_size"
+        app:summary="@string/setFontSize"
+        app:title="@string/fontSize" />
+
+    <!--ListPreference
+        app:defaultValue="Русский"
+        app:dialogTitle="@string/chooseLanguage"
+        app:entries="@array/language"
+        app:entryValues="@array/language"
+        app:key="@string/pref_lang"
+        app:summary="@string/setLanguage"
+        app:title="@string/language"-->/>
+
+    <Preference
+        app:key="@string/pref_button"
+        app:summary="@string/eraseUserData"
+        app:title="@string/eraseData" />
+
+
+
+</PreferenceScreen>

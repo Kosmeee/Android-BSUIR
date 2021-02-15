@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">LR2</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="title">Title</string>
+    <string name="prepare">Prepare</string>
+    <string name="work">Work</string>
+    <string name="calm">calm</string>
+    <string name="cycles">Cycles</string>
+    <string name="sets">Sets</string>
+    <string name="stsCalm">calm between sets</string>
+    <string name="trainingTitle">Training</string>
+    <string name="ten" translatable="false">10</string>
+    <string name="twenty" translatable="false">20</string>
+    <string name="eight" translatable="false">8</string>
+    <string name="one" translatable="false">1</string>
+    <string name="zero" translatable="false">0</string>
+    <string name="dots" translatable="false">&#8942;</string>
+    <string name="save">Save</string>
+    <string name="color">Color</string>
+    <string name="clearData">Clear data</string>
+    <string name="clearDataSure">Are you sure you want to erase all user data?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="finish">Finish</string>
+    <string name="finishTraining">Finish training</string>
+    <string name="finishTrainingSure">Are you sure you want to finish training?</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="darkTheme">Dark theme</string>
+    <string name="enterFontSize">Enter font size</string>
+    <string name="setFontSize">Set new font size</string>
+    <string name="fontSize">Font size</string>
+    <string name="chooseLanguage">Choose language</string>
+    <string name="setLanguage">Set app language</string>
+    <string name="language">Language</string>
+    <string name="eraseUserData">Erase all user data</string>
+    <string name="eraseData">Erase data</string>
+    <!-- Preferences -->
+    <string name="pref_size" translatable="false">Font size</string>
+    <string name="pref_button" translatable="false">Clear data</string>
+    <string name="pref_theme" translatable="false">Dark mode</string>
+    <string name="pref_lang" translatable="false">Language</string>
+</resources>
