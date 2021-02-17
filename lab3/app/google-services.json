@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "400368921479",
+    "project_id": "lab3am-487c9",
+    "storage_bucket": "lab3am-487c9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:400368921479:android:90623af17236f4e22d4122",
+        "android_client_info": {
+          "package_name": "com.example.lab3am"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "400368921479-22fakis1gull1n0o2mk121sljbl622b8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6ZetXgp9IfiqjkcPdsXeJE3Bn9O0tKFs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "400368921479-22fakis1gull1n0o2mk121sljbl622b8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

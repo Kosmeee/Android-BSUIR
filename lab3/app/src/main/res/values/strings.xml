@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Lab3AM</string>
+    <string name="action_settings">Settings</string>
+    <string name="name">Name</string>
+    <string name="choose_file">Choose File</string>
+    <string name="file_name">File Name</string>
+    <string name="save">Save</string>
+    <string name="upload_file">Upload File</string>
+    <string name="stat">Your stat:</string>
+    <string name="your_stat">Your stat:</string>
+
+</resources>
