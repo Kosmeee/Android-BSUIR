@@ -13,13 +13,16 @@ import android.webkit.MimeTypeMap
 import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.io.IOException
+import com.squareup.picasso.Picasso
 
 class AccountActivity : AppCompatActivity() {
     private val TAG = "StorageActivity"
@@ -38,6 +41,7 @@ class AccountActivity : AppCompatActivity() {
     var user = FirebaseAuth.getInstance().currentUser
     lateinit var imgFile: ImageView
     private var imageReference: StorageReference? = null
+    lateinit var btnGravatar: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account)
@@ -49,6 +53,8 @@ class AccountActivity : AppCompatActivity() {
     fun setupUI(){
         textStat = findViewById(R.id.textStat)
         var viewStat=""
+        database = FirebaseDatabase.getInstance()
+        imageReference = FirebaseStorage.getInstance().reference.child("images")
         tvFileName =findViewById<TextView>(R.id.tvFileName)
         imgFile = findViewById(R.id.imgFile)
         editName = findViewById(R.id.editName)
@@ -57,6 +63,9 @@ class AccountActivity : AppCompatActivity() {
         btn_choosefile = findViewById(R.id.btn_choose_file)
         btn_uploadfile = findViewById(R.id.btn_upload_file)
         btn_save = findViewById(R.id.setup_profile)
+
+        btnGravatar= findViewById(R.id.gravatarButton)
+
         btn_choosefile.setOnClickListener {
             showChoosingFile()
         }
@@ -84,10 +93,21 @@ class AccountActivity : AppCompatActivity() {
                     }
             }
         }
+
+        btnGravatar.setOnClickListener {
+            val hash = MyUtility.algo_MD5(Firebase.auth.currentUser?.email!!)
+            Toast.makeText(this, Firebase.auth.currentUser?.email!!,Toast.LENGTH_SHORT).show()
+            val gravatarUrl = "https://s.gravatar.com/avatar/$hash?s=80"
+            Picasso.with(applicationContext)
+                .load(gravatarUrl)
+                .into(imgFile)
+        }
         btn_uploadfile.setOnClickListener {
             uploadFile()
         }
     }
+
+
 
     private fun uploadFile() {
         if (fileUri != null) {
@@ -108,7 +128,10 @@ class AccountActivity : AppCompatActivity() {
                     Toast.makeText(this, exception.message, Toast.LENGTH_LONG).show()
                 }
                 .addOnProgressListener { taskSnapshot ->
+                    // progress percentage
                     val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount
+
+                    // percentage in progress dialog
                     val intProgress = progress.toInt()
                     tvFileName.text = "Uploaded " + intProgress + "%..."
                 }
@@ -168,6 +191,7 @@ class AccountActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
+
             }
         }
         statRef.addValueEventListener(postListener)

@@ -84,6 +84,15 @@
             android:layout_height="0dp"
             android:layout_weight="4.7" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/gravatarButton"
+            android:layout_width="103dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/design_default_color_secondary_variant"
+            android:text="@string/gravatar" />
+
     </LinearLayout>
 
     <TextView

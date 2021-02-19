@@ -72,6 +72,9 @@ class ServersActivity : AppCompatActivity() {
     private fun addRoomEventListener(){
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Get Post object and use the values to update the UI
+                //val post = dataSnapshot.getValue<Post>()
+                // ...
                 btnCreateRoom.setText("CREATE ROOM")
                 btnCreateRoom.isEnabled = true
                 var intent = Intent(applicationContext, PlayActivity::class.java)
@@ -80,9 +83,11 @@ class ServersActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
                 btnCreateRoom.setText("CREATE ROOM")
                 btnCreateRoom.isEnabled = true
                 Toast.makeText(applicationContext, "Error!", Toast.LENGTH_SHORT).show()
+                // ...
             }
         }
         roomRef.addValueEventListener(postListener)
@@ -92,7 +97,11 @@ class ServersActivity : AppCompatActivity() {
         roomsRef = database.getReference("rooms")
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Get Post object and use the values to update the UI
+                //val post = dataSnapshot.getValue<Post>()
+                // ...
                 roomList.clear()
+                // Toast.makeText(applicationContext, "Error in ondata!", Toast.LENGTH_SHORT).show()
                 var rooms = dataSnapshot.children//tut
                 for(snapshot in rooms){
                     roomList.add(snapshot.key.toString())
@@ -102,6 +111,9 @@ class ServersActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
+                // Toast.makeText(applicationContext, "Error rooms!", Toast.LENGTH_SHORT).show()
+                // Getting Post failed, log a message
+                // ...
             }
         }
         roomsRef.addValueEventListener(postListener)

@@ -8,5 +8,6 @@
     <string name="upload_file">Upload File</string>
     <string name="stat">Your stat:</string>
     <string name="your_stat">Your stat:</string>
+    <string name="gravatar">avatar</string>
 
 </resources>
