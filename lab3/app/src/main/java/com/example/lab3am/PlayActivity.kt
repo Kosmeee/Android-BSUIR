@@ -1,6 +1,7 @@
 package com.example.lab3am
 
 import android.content.Intent
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.auth.FirebaseAuth
@@ -46,8 +48,8 @@ class PlayActivity : AppCompatActivity() {
             }
         }
         gameStateModel = ViewModelProviders.of(this)[GameViewModel::class.java]
-        gameStateModel!!.GameViewModelConstr(user,roomName, role.toString(), second_role.toString(), database!!,messageRef,btnSendWord,guessWord,btnSetnum)
-       gameStateModel.onStart()
+        gameStateModel!!.GameViewModelConstr(user,roomName, role.toString(), second_role.toString(), database!!,messageRef,guessWord)
+       gameStateModel.onStart(applicationContext)
     }
 
 
@@ -61,8 +63,19 @@ class PlayActivity : AppCompatActivity() {
         }
         btnSendWord.visibility = View.INVISIBLE
         btnSetnum.setOnClickListener {
-            gameStateModel.setNum(editTextWord.text.toString(),applicationContext)
+            if(gameStateModel.setNum(editTextWord.text.toString(),applicationContext))
+                btnSetnum.visibility = View.INVISIBLE
         }
+        gameStateModel.obs.observe(this, Observer { event ->
+            event?.getContentIfNotHandledOrReturnNull()?.let {
+                btnSendWord.isEnabled = it
+            }
+        })
+        gameStateModel.obs2.observe(this, Observer { event ->
+            event?.getContentIfNotHandledOrReturnNull()?.let {
+                btnSendWord.visibility = View.VISIBLE
+            }
+        })
     }
 
         }

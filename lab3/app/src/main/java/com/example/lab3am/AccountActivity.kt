@@ -11,9 +11,11 @@ import android.text.TextUtils
 import android.util.Log
 import android.webkit.MimeTypeMap
 import android.widget.*
+import androidx.core.net.toUri
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -23,6 +25,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.io.IOException
 import com.squareup.picasso.Picasso
+import java.io.File
 
 class AccountActivity : AppCompatActivity() {
     private val TAG = "StorageActivity"
@@ -50,6 +53,26 @@ class AccountActivity : AppCompatActivity() {
         setupUI()
         addStatEventListener()
     }
+    fun gravatarSetup(){
+        val hash = MyUtility.algo_MD5(Firebase.auth.currentUser?.email!!)
+        Toast.makeText(this, Firebase.auth.currentUser?.email!!,Toast.LENGTH_SHORT).show()
+        val gravatarUrl = "https://s.gravatar.com/avatar/$hash?s=80"
+        Picasso.with(applicationContext)
+                .load(gravatarUrl)
+                .into(imgFile)
+
+
+        val profileUpdates = userProfileChangeRequest {
+            photoUri = Uri.parse("1")
+        }
+
+        user!!.updateProfile(profileUpdates)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d(TAG, "User profile updated.")
+                    }
+                }
+    }
     fun setupUI(){
         textStat = findViewById(R.id.textStat)
         var viewStat=""
@@ -65,6 +88,10 @@ class AccountActivity : AppCompatActivity() {
         btn_save = findViewById(R.id.setup_profile)
 
         btnGravatar= findViewById(R.id.gravatarButton)
+        if(user?.photoUrl == "1".toUri())
+            gravatarSetup()
+        else
+        downloadFile()
 
         btn_choosefile.setOnClickListener {
             showChoosingFile()
@@ -94,19 +121,27 @@ class AccountActivity : AppCompatActivity() {
             }
         }
 
+
+
         btnGravatar.setOnClickListener {
-            val hash = MyUtility.algo_MD5(Firebase.auth.currentUser?.email!!)
-            Toast.makeText(this, Firebase.auth.currentUser?.email!!,Toast.LENGTH_SHORT).show()
-            val gravatarUrl = "https://s.gravatar.com/avatar/$hash?s=80"
-            Picasso.with(applicationContext)
-                .load(gravatarUrl)
-                .into(imgFile)
+            gravatarSetup()
+
         }
         btn_uploadfile.setOnClickListener {
             uploadFile()
+            val profileUpdates = userProfileChangeRequest {
+                photoUri = Uri.parse("0")
+            }
+
+            user!!.updateProfile(profileUpdates)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Log.d(TAG, "User profile updated.")
+                        }
+                    }
+
         }
     }
-
 
 
     private fun uploadFile() {
@@ -128,10 +163,7 @@ class AccountActivity : AppCompatActivity() {
                     Toast.makeText(this, exception.message, Toast.LENGTH_LONG).show()
                 }
                 .addOnProgressListener { taskSnapshot ->
-                    // progress percentage
                     val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount
-
-                    // percentage in progress dialog
                     val intProgress = progress.toInt()
                     tvFileName.text = "Uploaded " + intProgress + "%..."
                 }
@@ -140,6 +172,26 @@ class AccountActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this, "No File!", Toast.LENGTH_LONG).show()
         }
+    }
+
+    fun downloadFile() {
+        var storageReference = FirebaseStorage.getInstance().reference
+        val seriesRef = storageReference.child("images/" + user?.displayName + ".jpg")
+        val localFile = File.createTempFile(user?.displayName, "jpg")
+        seriesRef.getFile(localFile).addOnSuccessListener { taskSnapshot ->
+            imgFile.setImageURI(Uri.fromFile(localFile.absoluteFile))
+            Toast.makeText(this, localFile.absolutePath, Toast.LENGTH_SHORT).show()
+        }
+                .addOnFailureListener { exception ->
+                    Toast.makeText(this, exception.message, Toast.LENGTH_LONG).show()
+                }
+                .addOnProgressListener { taskSnapshot ->
+                    val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount
+                    val intProgress = progress.toInt()
+                    if (intProgress == 100) {
+                        Toast.makeText(this, "File is here", Toast.LENGTH_SHORT).show()
+                    }
+                }
     }
 
     private fun showChoosingFile() {

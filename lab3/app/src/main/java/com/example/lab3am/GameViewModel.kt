@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -27,10 +28,11 @@ class GameViewModel: ViewModel() {
     lateinit var user: FirebaseUser
     lateinit var database : FirebaseDatabase
     lateinit var messageRef : DatabaseReference
-    lateinit var btnSendWord: Button
     lateinit var guessWord : String
-    lateinit var btnSetnum: Button
     lateinit var imageReference : StorageReference
+    val obs = MutableLiveData<Event<Boolean>>()
+    val obs2 = MutableLiveData<Event<Boolean>>()
+
     public fun GameViewModelConstr(
         user : FirebaseUser?,
         roomName: String,
@@ -38,10 +40,9 @@ class GameViewModel: ViewModel() {
         second_role: String,
         database : FirebaseDatabase,
         messageRef : DatabaseReference,
-        btnSendWord: Button,
         guessWord : String,
-        btnSetnum: Button,
-    ) {
+    )
+    {
         if (user != null) {
             this.user = user
         }
@@ -50,32 +51,35 @@ class GameViewModel: ViewModel() {
         this.database = database
         this.roomName = roomName
         this.messageRef = messageRef
-        this.btnSendWord = btnSendWord
         this.guessWord = guessWord
-        this.btnSetnum = btnSetnum
+    }
+
+    fun sendEvent(data:Boolean) {
+        obs.value = Event(data)
+    }
+
+    fun sendEvent2(data:Boolean) {
+        obs2.value = Event(data)
     }
 
 
-    public fun setupUI(){
-        database = FirebaseDatabase.getInstance()
-    }
-
-    public fun setNum(num:String, context: Context){
+    public fun setNum(num:String, context: Context): Boolean {
         if(num.length==4){
             for(i in 0..2){
                 for(j in i+1..3){
                     if(num[i]==num[j]){
                         Toast.makeText(context,"No similar nums",Toast.LENGTH_SHORT).show()
-                        return
+                        return false
                     }
                 }
             }
             messageRef = database.getReference("rooms/" + roomName + "/" + role + "num")
             messageRef.setValue(num)
-            btnSetnum.visibility = View.INVISIBLE
+            return true
         }
         else{
             Toast.makeText(context,"Length must be 4, not" + num.length,Toast.LENGTH_SHORT).show()
+            return false
         }
     }
 
@@ -138,7 +142,8 @@ class GameViewModel: ViewModel() {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 var newword = dataSnapshot.value.toString()
-                btnSendWord.isEnabled = newword != role
+                sendEvent(newword != role)
+
             }
             override fun onCancelled(databaseError: DatabaseError) {
                 Toast.makeText(context,"Fail in event listener", Toast.LENGTH_SHORT).show()
@@ -152,7 +157,7 @@ class GameViewModel: ViewModel() {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 guessWord = dataSnapshot.value.toString()
-                btnSendWord.visibility = View.VISIBLE
+                sendEvent2(true)
                 Toast.makeText(context, "get enemy word", Toast.LENGTH_SHORT).show()
             }
             override fun onCancelled(databaseError: DatabaseError) {
